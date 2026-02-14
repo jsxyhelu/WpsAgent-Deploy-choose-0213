@@ -219,7 +219,7 @@ A: 可以尝试：
 
 ## 开发团队
 
-WpsAgent 由 AI 辅助开发团队开发维护。
+WpsAgent 由 jsxyhelu 开发维护。
 
 ## 许可证
 

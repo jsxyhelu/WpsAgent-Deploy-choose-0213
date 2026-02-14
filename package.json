@@ -12,7 +12,7 @@
 	},
 	"description": "WpsAgent加载项 - 集成AI功能的WPS Office助手",
 	"keywords": ["wps", "office", "ai", "assistant", "deepseek"],
-	"author": "",
+	"author": "jsxyhelu",
 	"license": "MIT",
 	"devDependencies": {
 		"vite": "^5.3.1",
