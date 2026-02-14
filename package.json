@@ -1,0 +1,26 @@
+{
+	"name": "WpsAgent",
+	"addonType": "wps",
+	"version": "1.1.0",
+	"scripts": {
+		"dev": "npx vite --port 3889",
+		"build": "npx vite build",
+		"preview": "npx vite preview",
+		"start": "node server.js",
+		"lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
+		"format": "prettier --write src/"
+	},
+	"description": "WpsAgent加载项 - 集成AI功能的WPS Office助手",
+	"keywords": ["wps", "office", "ai", "assistant", "deepseek"],
+	"author": "",
+	"license": "MIT",
+	"devDependencies": {
+		"vite": "^5.3.1",
+		"wps-jsapi-declare": "latest",
+		"wpsjs": "^2.2.3"
+	},
+	"dependencies": {
+		"dotenv": "^17.3.1",
+		"express": "^5.2.1"
+	}
+}
