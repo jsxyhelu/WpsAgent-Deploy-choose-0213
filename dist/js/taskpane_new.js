@@ -1,9 +1,3 @@
-const logger = require('./logger.js');
-const config = require('./config.js');
-const api = require('./api.js');
-const documentHelper = require('./document.js');
-const tabManager = require('./tabManager.js');
-
 let conversationHistory = [
     {
         role: 'system',
@@ -32,8 +26,8 @@ async function sendMessage() {
     const loadingId = showLoading();
     
     try {
-        const currentConfig = config.getConfig();
-        const response = await api.callAIWithRetry(conversationHistory, currentConfig);
+        const currentConfig = getConfig();
+        const response = await callAIWithRetry(conversationHistory, currentConfig);
         
         removeLoading(loadingId);
         
@@ -47,7 +41,7 @@ async function sendMessage() {
     } catch (error) {
         removeLoading(loadingId);
         appendMessage('assistant', '抱歉，发生了错误：' + error.message);
-        logger.error('发送消息失败', { error: error.message });
+        error('发送消息失败', { error: error.message });
     }
     
     sendBtn.disabled = false;
@@ -156,7 +150,7 @@ function getActiveTargetId() {
 }
 
 function clearMarkers() {
-    const result = documentHelper.clearAllComments();
+    const result = clearAllComments();
     if (result.success) {
         alert(`✅ 已成功清除文档中的所有标记（共 ${result.count} 条）。`);
     } else {
@@ -202,12 +196,12 @@ function clearChat() {
     input.style.height = 'auto';
     input.focus();
     
-    logger.info('清空对话历史');
+    info('清空对话历史');
 }
 
 async function reviewDocument() {
     const targetId = getActiveTargetId();
-    const result = documentHelper.getDocumentContent();
+    const result = getDocumentContent();
     
     if (!result.success) {
         appendMessage('assistant', '无法获取文档内容：' + result.error, targetId);
@@ -230,7 +224,7 @@ async function reviewDocument() {
     const loadingId = showLoading(targetId);
     
     try {
-        const currentConfig = config.getConfig();
+        const currentConfig = getConfig();
         const checkMessages = [
             {
                 role: 'system',
@@ -262,7 +256,7 @@ async function reviewDocument() {
             }
         ];
         
-        const response = await api.callAIWithRetry(checkMessages, currentConfig);
+        const response = await callAIWithRetry(checkMessages, currentConfig);
         
         removeLoading(loadingId);
         
@@ -299,7 +293,7 @@ async function reviewDocument() {
     } catch (error) {
         removeLoading(loadingId);
         appendMessage('assistant', '检查过程中发生错误：' + error.message, targetId);
-        logger.error('校对文档失败', { error: error.message });
+        error('校对文档失败', { error: error.message });
     }
 }
 
@@ -351,7 +345,7 @@ function addCommentsToDocument(errors, docContext) {
             
             addedCount++;
         } catch (e) {
-            logger.error('应用审阅格式失败', { error: e.message, wrong: item.err.wrong });
+            error('应用审阅格式失败', { error: e.message, wrong: item.err.wrong });
         }
     }
     
@@ -360,7 +354,7 @@ function addCommentsToDocument(errors, docContext) {
 
 async function polishDocument() {
     const targetId = getActiveTargetId();
-    const result = documentHelper.getDocumentContent();
+    const result = getDocumentContent();
     
     if (!result.success) {
         appendMessage('assistant', '无法获取文档内容：' + result.error, targetId);
@@ -392,12 +386,12 @@ async function polishDocument() {
     } catch (error) {
         removeLoading(loadingId);
         appendMessage('assistant', '润色过程中发生错误：' + error.message, targetId);
-        logger.error('润色文档失败', { error: error.message });
+        error('润色文档失败', { error: error.message });
     }
 }
 
 async function polishSingleContent(docContext, loadingId, targetId = 'chatMessages') {
-    const currentConfig = config.getConfig();
+    const currentConfig = getConfig();
     const polishMessages = [
         {
             role: 'system',
@@ -419,7 +413,7 @@ async function polishSingleContent(docContext, loadingId, targetId = 'chatMessag
         }
     ];
     
-    const response = await api.callAIWithRetry(polishMessages, currentConfig);
+    const response = await callAIWithRetry(polishMessages, currentConfig);
     
     removeLoading(loadingId);
     
@@ -455,7 +449,7 @@ async function polishByParagraphs(docContext, loadingId, targetId = 'chatMessage
     
     let successCount = 0;
     let currentOffset = docContext.start;
-    const currentConfig = config.getConfig();
+    const currentConfig = getConfig();
     
     for (let i = 0; i < paragraphs.length; i++) {
         const paragraph = paragraphs[i];
@@ -491,7 +485,7 @@ async function polishByParagraphs(docContext, loadingId, targetId = 'chatMessage
                 }
             ];
             
-            const polishedParagraph = await api.callAIWithRetry(polishMessages, currentConfig);
+            const polishedParagraph = await callAIWithRetry(polishMessages, currentConfig);
             
             const paragraphContext = {
                 content: paragraph,
@@ -510,7 +504,7 @@ async function polishByParagraphs(docContext, loadingId, targetId = 'chatMessage
         } catch (error) {
             removeLoading(progressLoadingId);
             appendMessage('assistant', `⚠️ 第 ${i + 1} 段润色失败：${error.message}`, targetId);
-            logger.error('润色段落失败', { index: i, error: error.message });
+            error('润色段落失败', { index: i, error: error.message });
         }
         
         currentOffset += paragraphLength + 1;
@@ -532,15 +526,15 @@ function addPolishComment(docContext, polishedText) {
         
         return true;
     } catch (e) {
-        logger.error('添加润色批注失败', { error: e.message });
+        error('添加润色批注失败', { error: e.message });
         return false;
     }
 }
 
 async function formatDocument() {
     const targetId = getActiveTargetId();
-    const currentConfig = config.getConfig();
-    const result = documentHelper.getDocumentContent();
+    const currentConfig = getConfig();
+    const result = getDocumentContent();
     
     if (!result.success) {
         appendMessage('assistant', '错误：' + result.error, targetId);
@@ -572,13 +566,13 @@ async function formatDocument() {
             { role: 'user', content: result.content }
         ];
 
-        const response = await api.callAIWithRetry(messages, currentConfig);
+        const response = await callAIWithRetry(messages, currentConfig);
         removeLoading(loadingId);
 
         appendMessage('assistant', '📝 排版结果建议：\n\n' + response, targetId);
 
         try {
-            const formatResult = documentHelper.applyFormatting(currentConfig, result);
+            const formatResult = applyFormatting(currentConfig, result);
             
             if (formatResult.success) {
                 appendMessage('assistant', `✅ 已自动应用您的自定义排版配置：
@@ -593,19 +587,19 @@ async function formatDocument() {
                 appendMessage('assistant', '⚠️ 自动格式化应用时遇到问题：' + formatResult.error + '\n您可以根据上面的 AI 建议手动调整。', targetId);
             }
         } catch (formatError) {
-            logger.error('排版应用失败', { error: formatError.message });
+            error('排版应用失败', { error: formatError.message });
             appendMessage('assistant', '⚠️ 自动格式化应用时遇到问题：' + formatError.message + '\n您可以根据上面的 AI 建议手动调整。', targetId);
         }
     } catch (e) {
         removeLoading(loadingId);
         appendMessage('assistant', '排版失败：' + e.message, targetId);
-        logger.error('排版文档失败', { error: e.message });
+        error('排版文档失败', { error: e.message });
     }
 }
 
 async function continueDocument() {
     const targetId = getActiveTargetId();
-    const result = documentHelper.getDocumentContent();
+    const result = getDocumentContent();
     
     if (!result.success) { 
         appendMessage('assistant', '错误：' + result.error, targetId); 
@@ -617,25 +611,25 @@ async function continueDocument() {
     const loadingId = showLoading(targetId);
     
     try {
-        const currentConfig = config.getConfig();
+        const currentConfig = getConfig();
         const messages = [
             { role: 'system', content: '你是一个擅长续写的作家。请根据用户提供的上文，续写一段文字（约100-200字），保持文风一致。直接输出续写内容。' },
             { role: 'user', content: result.content }
         ];
-        const response = await api.callAIWithRetry(messages, currentConfig);
+        const response = await callAIWithRetry(messages, currentConfig);
         removeLoading(loadingId);
         appendMessage('assistant', '✨ 续写建议：\n\n' + response, targetId);
         appendMessage('assistant', '您可以手动将上述内容复制到文档中。', targetId);
     } catch (e) {
         removeLoading(loadingId);
         appendMessage('assistant', '续写失败：' + e.message, targetId);
-        logger.error('续写文档失败', { error: e.message });
+        error('续写文档失败', { error: e.message });
     }
 }
 
 async function translateDocument() {
     const targetId = getActiveTargetId();
-    const result = documentHelper.getDocumentContent();
+    const result = getDocumentContent();
     
     if (!result.success) { 
         appendMessage('assistant', '错误：' + result.error, targetId); 
@@ -647,24 +641,24 @@ async function translateDocument() {
     const loadingId = showLoading(targetId);
     
     try {
-        const currentConfig = config.getConfig();
+        const currentConfig = getConfig();
         const messages = [
             { role: 'system', content: '你是一个精通中英互译的翻译官。请将用户提供的文本翻译成英文（如果原文是英文则翻译成中文）。保持语气地道。直接输出译文。' },
             { role: 'user', content: result.content }
         ];
-        const response = await api.callAIWithRetry(messages, currentConfig);
+        const response = await callAIWithRetry(messages, currentConfig);
         removeLoading(loadingId);
         appendMessage('assistant', '🌍 翻译结果：\n\n' + response, targetId);
     } catch (e) {
         removeLoading(loadingId);
         appendMessage('assistant', '翻译失败：' + e.message, targetId);
-        logger.error('翻译文档失败', { error: e.message });
+        error('翻译文档失败', { error: e.message });
     }
 }
 
 async function summarizeDocument() {
     const targetId = getActiveTargetId();
-    const result = documentHelper.getDocumentContent();
+    const result = getDocumentContent();
     
     if (!result.success) { 
         appendMessage('assistant', '错误：' + result.error, targetId); 
@@ -676,18 +670,18 @@ async function summarizeDocument() {
     const loadingId = showLoading(targetId);
     
     try {
-        const currentConfig = config.getConfig();
+        const currentConfig = getConfig();
         const messages = [
             { role: 'system', content: '你是一个擅长提炼重点的助手。请总结用户提供的内容，列出核心要点（使用列表格式）。直接输出总结内容。' },
             { role: 'user', content: result.content }
         ];
-        const response = await api.callAIWithRetry(messages, currentConfig);
+        const response = await callAIWithRetry(messages, currentConfig);
         removeLoading(loadingId);
         appendMessage('assistant', '💡 内容摘要：\n\n' + response, targetId);
     } catch (e) {
         removeLoading(loadingId);
         appendMessage('assistant', '总结失败：' + e.message, targetId);
-        logger.error('总结文档失败', { error: e.message });
+        error('总结文档失败', { error: e.message });
     }
 }
 
@@ -733,13 +727,13 @@ async function generateDocument(type) {
     const loadingId = showLoading(targetId);
 
     try {
-        const currentConfig = config.getConfig();
+        const currentConfig = getConfig();
         const messages = [
             { role: 'system', content: docConfig.prompt },
             { role: 'user', content: '请生成一份规范的' + docConfig.name + '范文' }
         ];
 
-        const response = await api.callAIWithRetry(messages, currentConfig);
+        const response = await callAIWithRetry(messages, currentConfig);
         removeLoading(loadingId);
         
         currentGeneratedContent = response;
@@ -760,7 +754,7 @@ async function generateDocument(type) {
     } catch (e) {
         removeLoading(loadingId);
         appendMessage('assistant', `生成${docConfig.name}失败：` + e.message, targetId);
-        logger.error('生成公文失败', { type, error: e.message });
+        error('生成公文失败', { type, error: e.message });
     }
 }
 
@@ -788,7 +782,7 @@ function insertToDocument() {
         currentGeneratedContent = '';
         
     } catch (e) {
-        logger.error('插入文档失败', { error: e.message });
+        error('插入文档失败', { error: e.message });
         alert('❌ 插入失败：' + e.message);
     }
 }
@@ -818,13 +812,13 @@ window.onload = function() {
                 }
             }
         } catch (e) {
-            logger.debug('检查待创建 Tab 失败', { error: e.message });
+            debug('检查待创建 Tab 失败', { error: e.message });
         }
     }, 500);
 
-    config.loadConfigFromServer().then(loadedConfig => {
-        logger.info('配置加载成功', { apiUrl: loadedConfig.apiUrl, model: loadedConfig.model });
+    loadConfigFromServer().then(loadedConfig => {
+        info('配置加载成功', { apiUrl: loadedConfig.apiUrl, model: loadedConfig.model });
     }).catch(err => {
-        logger.warn('从服务器加载配置失败，使用本地配置', { error: err.message });
+        warn('从服务器加载配置失败，使用本地配置', { error: err.message });
     });
 };

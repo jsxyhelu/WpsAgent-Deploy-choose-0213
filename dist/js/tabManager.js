@@ -1,12 +1,10 @@
-const logger = require('./logger.js');
-
 const tabManager = {
     tabs: new Map(),
     
     createOrActivateTab(tabId, label, closeable = true) {
         if (this.tabs.has(tabId)) {
             this.activateTab(tabId);
-            logger.debug('激活已有 Tab', { tabId });
+            debug('激活已有 Tab', { tabId });
             return;
         }
         
@@ -19,7 +17,7 @@ const tabManager = {
         document.querySelector('.tab-contents').appendChild(tabContent);
         
         this.activateTab(tabId);
-        logger.info('创建新 Tab', { tabId, label });
+        info('创建新 Tab', { tabId, label });
     },
     
     createTabItem(tabId, label, closeable) {
@@ -230,12 +228,12 @@ const tabManager = {
         if (tabItem) tabItem.classList.add('active');
         if (tabContent) tabContent.classList.add('active');
         
-        logger.debug('激活 Tab', { tabId });
+        debug('激活 Tab', { tabId });
     },
     
     closeTab(tabId) {
         if (tabId === 'chat') {
-            logger.warn('尝试关闭对话 Tab，已阻止');
+            warn('尝试关闭对话 Tab，已阻止');
             return;
         }
         
@@ -255,6 +253,6 @@ const tabManager = {
             this.activateTab('chat');
         }
         
-        logger.info('关闭 Tab', { tabId });
+        info('关闭 Tab', { tabId });
     }
 };

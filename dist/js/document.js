@@ -1,12 +1,10 @@
-const logger = require('./logger.js');
-
 function getDocumentContent() {
     try {
         const app = window.Application;
         const doc = app.ActiveDocument;
         
         if (!doc) {
-            logger.warn('获取文档内容失败：没有打开的文档');
+            warn('获取文档内容失败：没有打开的文档');
             return { success: false, error: '当前没有打开任何文档' };
         }
 
@@ -14,7 +12,7 @@ function getDocumentContent() {
         
         if (selection && selection.Start !== selection.End) {
             const range = selection.Range;
-            logger.debug('获取选中内容', { length: range.Text.length });
+            debug('获取选中内容', { length: range.Text.length });
             return { 
                 success: true, 
                 content: range.Text, 
@@ -26,7 +24,7 @@ function getDocumentContent() {
         }
 
         const fullRange = doc.Content;
-        logger.debug('获取全文内容', { length: fullRange.Text.length });
+        debug('获取全文内容', { length: fullRange.Text.length });
         return { 
             success: true, 
             content: fullRange.Text, 
@@ -36,7 +34,7 @@ function getDocumentContent() {
             end: fullRange.End
         };
     } catch (e) {
-        logger.error('获取文档内容异常', { error: e.message });
+        error('获取文档内容异常', { error: e.message });
         return { success: false, error: e.message };
     }
 }
@@ -45,15 +43,15 @@ function addCommentToDocument(range, text) {
     try {
         const doc = window.Application.ActiveDocument;
         if (!doc) {
-            logger.warn('添加批注失败：没有打开的文档');
+            warn('添加批注失败：没有打开的文档');
             return false;
         }
         
         doc.Comments.Add(range, text);
-        logger.debug('添加批注成功', { textLength: text.length });
+        debug('添加批注成功', { textLength: text.length });
         return true;
     } catch (e) {
-        logger.error('添加批注异常', { error: e.message });
+        error('添加批注异常', { error: e.message });
         return false;
     }
 }
@@ -62,16 +60,16 @@ function clearAllComments() {
     try {
         const doc = window.Application.ActiveDocument;
         if (!doc) {
-            logger.warn('清除批注失败：没有打开的文档');
+            warn('清除批注失败：没有打开的文档');
             return { success: false, error: '当前没有打开任何文档' };
         }
         
         const count = doc.Comments.Count;
         doc.DeleteAllComments();
-        logger.info('清除所有批注成功', { count });
+        info('清除所有批注成功', { count });
         return { success: true, count };
     } catch (e) {
-        logger.error('清除批注异常', { error: e.message });
+        error('清除批注异常', { error: e.message });
         return { success: false, error: e.message };
     }
 }
@@ -82,7 +80,7 @@ function insertTextToDocument(text) {
         const doc = app.ActiveDocument;
         
         if (!doc) {
-            logger.warn('插入文本失败：没有打开的文档');
+            warn('插入文本失败：没有打开的文档');
             return { success: false, error: '当前没有打开任何文档' };
         }
         
@@ -90,10 +88,10 @@ function insertTextToDocument(text) {
         selection.TypeText(text);
         selection.TypeParagraph();
         
-        logger.info('插入文本成功', { length: text.length });
+        info('插入文本成功', { length: text.length });
         return { success: true };
     } catch (e) {
-        logger.error('插入文本异常', { error: e.message });
+        error('插入文本异常', { error: e.message });
         return { success: false, error: e.message };
     }
 }
@@ -104,7 +102,7 @@ function applyFormatting(config, docContext) {
         const doc = app.ActiveDocument;
         
         if (!doc) {
-            logger.warn('应用格式失败：没有打开的文档');
+            warn('应用格式失败：没有打开的文档');
             return { success: false, error: '当前没有打开任何文档' };
         }
         
@@ -129,10 +127,10 @@ function applyFormatting(config, docContext) {
         pf.LineSpacing = config.lineSpacing;
         pf.CharacterUnitFirstLineIndent = 2;
         
-        logger.info('应用格式成功', { config });
+        info('应用格式成功', { config });
         return { success: true };
     } catch (e) {
-        logger.error('应用格式异常', { error: e.message });
+        error('应用格式异常', { error: e.message });
         return { success: false, error: e.message };
     }
 }
