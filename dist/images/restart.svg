@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+  <defs>
+    <linearGradient id="restartGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff9a9e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#fecfef;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- 重启箭头 -->
+  <path d="M100 64 C100 83.88 83.88 100 64 100 C44.12 100 28 83.88 28 64 C28 44.12 44.12 28 64 28 C75.5 28 85.7 33.4 92.2 41.8" stroke="url(#restartGradient)" stroke-width="8"/>
+  <polyline points="80,42 92,42 92,30" stroke="url(#restartGradient)" stroke-width="8" fill="none"/>
+  
+  <!-- 中心核心 -->
+  <circle cx="64" cy="64" r="12" fill="url(#restartGradient)" opacity="0.3"/>
+</svg>

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+  <defs>
+    <linearGradient id="settingsGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- 设置齿轮 -->
+  <circle cx="64" cy="64" r="24" stroke="url(#settingsGradient)"/>
+  <circle cx="64" cy="64" r="12" fill="url(#settingsGradient)" stroke="url(#settingsGradient)"/>
+  
+  <!-- 齿轮外齿 -->
+  <line x1="64" y1="16" x2="64" y2="28" stroke="url(#settingsGradient)"/>
+  <line x1="64" y1="100" x2="64" y2="112" stroke="url(#settingsGradient)"/>
+  <line x1="16" y1="64" x2="28" y2="64" stroke="url(#settingsGradient)"/>
+  <line x1="100" y1="64" x2="112" y2="64" stroke="url(#settingsGradient)"/>
+  
+  <line x1="30" y1="30" x2="39" y2="39" stroke="url(#settingsGradient)"/>
+  <line x1="89" y1="89" x2="98" y2="98" stroke="url(#settingsGradient)"/>
+  <line x1="98" y1="30" x2="89" y2="39" stroke="url(#settingsGradient)"/>
+  <line x1="39" y1="89" x2="30" y2="98" stroke="url(#settingsGradient)"/>
+</svg>

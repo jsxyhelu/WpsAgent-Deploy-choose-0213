@@ -1,0 +1,26 @@
+<customUI xmlns="http://schemas.microsoft.com/office/2006/01/customui" onLoad="OnAddinLoad">
+    <ribbon startFromScratch="false">
+        <tabs>
+            <tab id="wpsAddinTab" label="WpsAgent">
+				<group id="btnDemoGroup" label="操作">
+                    <button id="btnOpenSidebar" label="侧边栏" onAction="OnAction" enabled="true" getImage="GetImage" visible="true" size="large"/>
+				</group>
+				<group id="btnAIGroup" label="AI功能">
+                    <button id="btnProofread" label="校对" onAction="OnAction" enabled="true" getImage="GetImage" visible="true" size="large"/>
+                    <button id="btnPolish" label="润色" onAction="OnAction" enabled="true" getImage="GetImage" visible="true" size="large"/>
+                    <button id="btnFormat" label="排版" onAction="OnAction" enabled="true" getImage="GetImage" visible="true" size="large"/>
+                    <button id="btnContinue" label="续写" onAction="OnAction" enabled="true" getImage="GetImage" visible="true" size="large"/>
+                    <button id="btnWrite" label="写作" onAction="OnAction" enabled="true" getImage="GetImage" visible="true" size="large"/>
+                    <button id="btnTranslate" label="翻译" onAction="OnAction" enabled="true" getImage="GetImage" visible="true" size="large"/>
+                    <button id="btnSummarize" label="总结" onAction="OnAction" enabled="true" getImage="GetImage" visible="true" size="large"/>
+                    <button id="btnNavigate" label="导航" onAction="OnAction" enabled="true" getImage="GetImage" visible="true" size="large"/>
+				</group>
+				<group id="btnSystemGroup" label="系统">
+                    <button id="btnSettings" label="设置" onAction="OnAction" enabled="true" getImage="GetImage" visible="true" size="large"/>
+                    <button id="btnHelp" label="帮助" onAction="OnAction" enabled="true" getImage="GetImage" visible="true" size="large"/>
+                    <button id="btnRestart" label="关闭wps" onAction="OnAction" enabled="true" getImage="GetImage" visible="true" size="large"/>
+				</group>
+            </tab>
+        </tabs>
+    </ribbon>
+</customUI>

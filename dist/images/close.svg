@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+  <defs>
+    <linearGradient id="closeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff4b2b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ff416c;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- 电源/关闭图标 -->
+  <path d="M64 25V64" stroke="url(#closeGradient)" stroke-width="8"/>
+  <path d="M40 35C28 45 25 60 30 75C35 90 50 100 64 100C78 100 93 90 98 75C103 60 100 45 88 35" stroke="url(#closeGradient)" stroke-width="8"/>
+  
+  <!-- 装饰光晕 -->
+  <circle cx="64" cy="64" r="10" fill="url(#closeGradient)" opacity="0.2"/>
+</svg>

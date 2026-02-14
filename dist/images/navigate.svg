@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+  <defs>
+    <linearGradient id="navigateGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#30cfd0;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#330867;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- 指南针 -->
+  <circle cx="64" cy="64" r="44" fill="url(#navigateGradient)" fill-opacity="0.2" stroke="url(#navigateGradient)"/>
+  <polygon points="64,32 80,64 64,72 48,64" fill="#30cfd0" opacity="0.7" stroke="#30cfd0" stroke-width="3"/>
+  
+  <!-- 四个方向标记 -->
+  <line x1="64" y1="16" x2="64" y2="26" stroke="#30cfd0" stroke-width="4"/>
+  <line x1="64" y1="102" x2="64" y2="112" stroke="#30cfd0" stroke-width="4"/>
+  <line x1="16" y1="64" x2="26" y2="64" stroke="#30cfd0" stroke-width="4"/>
+  <line x1="102" y1="64" x2="112" y2="64" stroke="#30cfd0" stroke-width="4"/>
+</svg>

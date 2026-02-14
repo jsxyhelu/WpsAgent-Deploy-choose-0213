@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+  <defs>
+    <linearGradient id="writeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff9a9e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#fecfef;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- 钢笔 -->
+  <path d="M84 16 L104 36 L44 96 L16 104 L24 76 L84 16 Z" fill="url(#writeGradient)" fill-opacity="0.3" stroke="url(#writeGradient)"/>
+  <line x1="76" y1="24" x2="96" y2="44" stroke="#ff9a9e" stroke-width="4"/>
+  
+  <!-- 墨水点 -->
+  <circle cx="32" cy="88" r="4" fill="#ff9a9e"/>
+  <circle cx="40" cy="96" r="3" fill="#fecfef"/>
+</svg>

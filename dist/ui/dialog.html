@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API 配置</title>
+</head>
+
+<body>
+    <div class="settings-container">
+        <div class="settings-header">
+            <h2>API 配置</h2>
+        </div>
+        
+        <div class="settings-content">
+            <div class="form-group">
+                <label>模型类型</label>
+                <select id="modelType" onchange="onModelTypeChange()">
+                    <option value="cloud">云端模型</option>
+                    <option value="local">本地模型</option>
+                </select>
+                <div class="help-text">选择使用云端 API 或本地部署的大模型</div>
+            </div>
+
+            <div id="cloudConfig" class="model-config">
+                <div class="form-group">
+                    <label>API URL</label>
+                    <input type="text" id="apiUrl" placeholder="https://api.deepseek.com/chat/completions">
+                    <div class="help-text">AI API 端点地址（支持 OpenAI 兼容接口）</div>
+                </div>
+                
+                <div class="form-group">
+                    <label>API Key</label>
+                    <input type="password" id="apiKey" placeholder="sk-...">
+                    <div class="help-text">你的 AI API 密钥</div>
+                </div>
+                
+                <div class="form-group">
+                    <label>模型名称</label>
+                    <input type="text" id="modelName" placeholder="deepseek-chat">
+                    <div class="help-text">例如: deepseek-chat, gpt-3.5-turbo, claude-3-sonnet</div>
+                </div>
+            </div>
+
+            <div id="localConfig" class="model-config" style="display: none;">
+                <div class="form-group">
+                    <label>本地 API 地址</label>
+                    <input type="text" id="localApiUrl" placeholder="http://localhost:11434/api/chat">
+                    <div class="help-text">本地模型服务地址（Ollama/vLLM/LocalAI 等）</div>
+                </div>
+                
+                <div class="form-group">
+                    <label>模型名称</label>
+                    <input type="text" id="localModelName" placeholder="llama2">
+                    <div class="help-text">例如: llama2, qwen, chatglm, mistral</div>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="localNeedAuth">
+                        需要认证
+                    </label>
+                    <div class="help-text">如果本地模型服务需要 API Key，请勾选此项</div>
+                </div>
+
+                <div class="form-group" id="localApiKeyGroup" style="display: none;">
+                    <label>本地 API Key</label>
+                    <input type="password" id="localApiKey" placeholder="可选">
+                    <div class="help-text">本地模型的认证密钥（如果需要）</div>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h3 class="section-title">文档格式设置</h3>
+                
+                <div class="form-row">
+                    <div class="form-group half">
+                        <label>页边距 - 上/下 (cm)</label>
+                        <div class="input-pair">
+                            <input type="number" id="marginTop" step="0.01" value="2.54" title="上边距">
+                            <input type="number" id="marginBottom" step="0.01" value="2.54" title="下边距">
+                        </div>
+                    </div>
+                    <div class="form-group half">
+                        <label>页边距 - 左/右 (cm)</label>
+                        <div class="input-pair">
+                            <input type="number" id="marginLeft" step="0.01" value="3.18" title="左边距">
+                            <input type="number" id="marginRight" step="0.01" value="3.18" title="右边距">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>行间距 (磅)</label>
+                    <input type="number" id="lineSpacing" step="1" value="28">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group half">
+                        <label>标题字体</label>
+                        <input type="text" id="titleFont" value="黑体">
+                    </div>
+                    <div class="form-group half">
+                        <label>标题字号</label>
+                        <input type="number" id="titleFontSize" value="16">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group half">
+                        <label>1级标题字体</label>
+                        <input type="text" id="h1Font" value="黑体">
+                    </div>
+                    <div class="form-group half">
+                        <label>1级标题字号</label>
+                        <input type="number" id="h1FontSize" value="16">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group half">
+                        <label>2级标题字体</label>
+                        <input type="text" id="h2Font" value="黑体">
+                    </div>
+                    <div class="form-group half">
+                        <label>2级标题字号</label>
+                        <input type="number" id="h2FontSize" value="14">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group half">
+                        <label>3级标题字体</label>
+                        <input type="text" id="h3Font" value="楷体">
+                    </div>
+                    <div class="form-group half">
+                        <label>3级标题字号</label>
+                        <input type="number" id="h3FontSize" value="12">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group half">
+                        <label>括号中字体</label>
+                        <input type="text" id="bracketFont" value="仿宋">
+                    </div>
+                    <div class="form-group half">
+                        <label>括号中字号</label>
+                        <input type="number" id="bracketFontSize" value="12">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="settings-actions">
+                <button class="btn-save" onclick="saveSettings()">保存配置</button>
+                <button class="btn-reset" onclick="resetSettings()">恢复默认</button>
+                <button class="btn-cancel" onclick="closeDialog()">取消</button>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="../js/util.js"></script>
+<script type="text/javascript" src="../js/config.js"></script>
+<script type="text/javascript" src="../js/dialog_new.js"></script>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Microsoft YaHei", sans-serif;
+    background: #f5f5f5;
+    padding: 20px;
+    min-width: 400px;
+}
+
+.settings-container {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.settings-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 20px;
+}
+
+.settings-header h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.settings-content {
+    padding: 24px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group:last-of-type {
+    margin-bottom: 24px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+}
+
+.form-group input[type="text"],
+.form-group input[type="password"],
+.form-group input[type="number"],
+.form-group select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: inherit;
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.form-group input::placeholder,
+.form-group select::placeholder {
+    color: #aaa;
+}
+
+.form-group input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+.form-group label input[type="checkbox"] {
+    display: inline-block;
+    margin-right: 8px;
+}
+
+.model-config {
+    background: #f8f9ff;
+    padding: 16px;
+    border-radius: 6px;
+    border: 1px solid #e0e7ff;
+    margin-bottom: 20px;
+}
+
+.settings-section {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.section-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #4338ca;
+    margin-bottom: 16px;
+}
+
+.form-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.form-group.half {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+.input-pair {
+    display: flex;
+    gap: 8px;
+}
+
+.input-pair input {
+    flex: 1;
+}
+
+.help-text {
+    margin-top: 6px;
+    font-size: 12px;
+    color: #999;
+}
+
+.settings-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 24px;
+}
+
+.settings-actions button {
+    flex: 1;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.1s;
+}
+
+.settings-actions button:active {
+    transform: scale(0.98);
+}
+
+.btn-save {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.btn-save:hover {
+    opacity: 0.9;
+}
+
+.btn-reset {
+    background: #f0f0f0;
+    color: #666;
+}
+
+.btn-reset:hover {
+    background: #e8e8e8;
+}
+
+.btn-cancel {
+    background: #f0f0f0;
+    color: #666;
+}
+
+.btn-cancel:hover {
+    background: #e8e8e8;
+}
+</style>
+
+</html>
