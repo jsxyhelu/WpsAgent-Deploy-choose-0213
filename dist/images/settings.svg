@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" fill="none" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
   <defs>
     <linearGradient id="settingsGradient" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
@@ -7,17 +7,17 @@
   </defs>
   
   <!-- 设置齿轮 -->
-  <circle cx="64" cy="64" r="24" stroke="url(#settingsGradient)"/>
-  <circle cx="64" cy="64" r="12" fill="url(#settingsGradient)" stroke="url(#settingsGradient)"/>
+  <circle cx="80" cy="80" r="30" stroke="url(#settingsGradient)" stroke-width="7"/>
+  <circle cx="80" cy="80" r="15" fill="url(#settingsGradient)" stroke="url(#settingsGradient)" stroke-width="6"/>
   
   <!-- 齿轮外齿 -->
-  <line x1="64" y1="16" x2="64" y2="28" stroke="url(#settingsGradient)"/>
-  <line x1="64" y1="100" x2="64" y2="112" stroke="url(#settingsGradient)"/>
-  <line x1="16" y1="64" x2="28" y2="64" stroke="url(#settingsGradient)"/>
-  <line x1="100" y1="64" x2="112" y2="64" stroke="url(#settingsGradient)"/>
+  <line x1="80" y1="20" x2="80" y2="35" stroke="url(#settingsGradient)" stroke-width="7"/>
+  <line x1="80" y1="125" x2="80" y2="140" stroke="url(#settingsGradient)" stroke-width="7"/>
+  <line x1="20" y1="80" x2="35" y2="80" stroke="url(#settingsGradient)" stroke-width="7"/>
+  <line x1="125" y1="80" x2="140" y2="80" stroke="url(#settingsGradient)" stroke-width="7"/>
   
-  <line x1="30" y1="30" x2="39" y2="39" stroke="url(#settingsGradient)"/>
-  <line x1="89" y1="89" x2="98" y2="98" stroke="url(#settingsGradient)"/>
-  <line x1="98" y1="30" x2="89" y2="39" stroke="url(#settingsGradient)"/>
-  <line x1="39" y1="89" x2="30" y2="98" stroke="url(#settingsGradient)"/>
+  <line x1="37.5" y1="37.5" x2="49" y2="49" stroke="url(#settingsGradient)" stroke-width="7"/>
+  <line x1="111" y1="111" x2="122.5" y2="122.5" stroke="url(#settingsGradient)" stroke-width="7"/>
+  <line x1="122.5" y1="37.5" x2="111" y2="49" stroke="url(#settingsGradient)" stroke-width="7"/>
+  <line x1="49" y1="111" x2="37.5" y2="122.5" stroke="url(#settingsGradient)" stroke-width="7"/>
 </svg>

@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" fill="none" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
   <defs>
     <linearGradient id="polishGradient" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" style="stop-color:#fa709a;stop-opacity:1" />
@@ -7,10 +7,10 @@
   </defs>
   
   <!-- 画笔 -->
-  <path d="M16 112 L48 80" stroke="url(#polishGradient)"/>
-  <path d="M48 80 L52 76 L72 56 L84 68 L64 88 L60 92 L48 80 Z" fill="url(#polishGradient)" stroke="url(#polishGradient)"/>
-  <line x1="72" y1="56" x2="84" y2="68" stroke="#fa709a" stroke-width="4"/>
+  <path d="M20 140 L60 100" stroke="url(#polishGradient)" stroke-width="8"/>
+  <path d="M60 100 L65 95 L90 70 L105 85 L80 110 L75 115 L60 100 Z" fill="url(#polishGradient)" stroke="url(#polishGradient)" stroke-width="6"/>
+  <line x1="90" y1="70" x2="105" y2="85" stroke="#fa709a" stroke-width="5"/>
   
   <!-- 星星效果 -->
-  <path d="M96 20 L100 32 L112 32 L102 40 L106 52 L96 44 L86 52 L90 40 L80 32 L92 32 Z" fill="#fee140" stroke="#fa709a" stroke-width="3"/>
+  <path d="M120 25 L125 40 L140 40 L128 50 L133 65 L120 55 L107 65 L112 50 L100 40 L115 40 Z" fill="#fee140" stroke="#fa709a" stroke-width="4"/>
 </svg>

@@ -119,43 +119,13 @@ function applyFormatting(config, docContext) {
             range = doc.Content;
         }
         
+        range.Font.NameFarEast = config.titleFont;
+        range.Font.Size = config.titleFontSize;
+        
         const pf = range.ParagraphFormat;
         pf.LineSpacingRule = 4;
         pf.LineSpacing = config.lineSpacing;
         pf.CharacterUnitFirstLineIndent = 2;
-        
-        const paragraphs = range.Paragraphs;
-        debug('开始应用格式', { paragraphCount: paragraphs.Count });
-        
-        for (let i = 1; i <= paragraphs.Count; i++) {
-            const para = paragraphs.Item(i);
-            const paraRange = para.Range;
-            const styleName = para.Style ? para.Style.NameLocal.toLowerCase() : '';
-            
-            debug(`段落 ${i} 样式`, { styleName, text: paraRange.Text.substring(0, 20) });
-            
-            if (styleName.includes('heading 1') || styleName.includes('标题 1')) {
-                paraRange.Font.NameFarEast = config.h1Font;
-                paraRange.Font.Size = config.h1FontSize;
-                paraRange.Font.Bold = true;
-                debug(`段落 ${i} 应用1级标题样式`, { font: config.h1Font, size: config.h1FontSize });
-            } else if (styleName.includes('heading 2') || styleName.includes('标题 2')) {
-                paraRange.Font.NameFarEast = config.h2Font;
-                paraRange.Font.Size = config.h2FontSize;
-                paraRange.Font.Bold = true;
-                debug(`段落 ${i} 应用2级标题样式`, { font: config.h2Font, size: config.h2FontSize });
-            } else if (styleName.includes('heading 3') || styleName.includes('标题 3')) {
-                paraRange.Font.NameFarEast = config.h3Font;
-                paraRange.Font.Size = config.h3FontSize;
-                paraRange.Font.Bold = true;
-                debug(`段落 ${i} 应用3级标题样式`, { font: config.h3Font, size: config.h3FontSize });
-            } else {
-                paraRange.Font.NameFarEast = config.titleFont;
-                paraRange.Font.Size = config.titleFontSize;
-                paraRange.Font.Bold = false;
-                debug(`段落 ${i} 应用正文样式`, { font: config.titleFont, size: config.titleFontSize });
-            }
-        }
         
         info('应用格式成功', { config });
         return { success: true };
