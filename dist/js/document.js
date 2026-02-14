@@ -1,3 +1,101 @@
+function getDocumentContent() {
+    try {
+        const app = window.Application;
+        const doc = app.ActiveDocument;
+        
+        if (!doc) {
+            warn('获取文档内容失败：没有打开的文档');
+            return { success: false, error: '当前没有打开任何文档' };
+        }
+
+        const selection = app.Selection;
+        
+        if (selection && selection.Start !== selection.End) {
+            const range = selection.Range;
+            debug('获取选中内容', { length: range.Text.length });
+            return { 
+                success: true, 
+                content: range.Text, 
+                name: doc.Name, 
+                isSelection: true,
+                start: selection.Start,
+                end: selection.End
+            };
+        }
+
+        const fullRange = doc.Content;
+        debug('获取全文内容', { length: fullRange.Text.length });
+        return { 
+            success: true, 
+            content: fullRange.Text, 
+            name: doc.Name, 
+            isSelection: false,
+            start: 0,
+            end: fullRange.End
+        };
+    } catch (e) {
+        error('获取文档内容异常', { error: e.message });
+        return { success: false, error: e.message };
+    }
+}
+
+function addCommentToDocument(range, text) {
+    try {
+        const doc = window.Application.ActiveDocument;
+        if (!doc) {
+            warn('添加批注失败：没有打开的文档');
+            return false;
+        }
+        
+        doc.Comments.Add(range, text);
+        debug('添加批注成功', { textLength: text.length });
+        return true;
+    } catch (e) {
+        error('添加批注异常', { error: e.message });
+        return false;
+    }
+}
+
+function clearAllComments() {
+    try {
+        const doc = window.Application.ActiveDocument;
+        if (!doc) {
+            warn('清除批注失败：没有打开的文档');
+            return { success: false, error: '当前没有打开任何文档' };
+        }
+        
+        const count = doc.Comments.Count;
+        doc.DeleteAllComments();
+        info('清除所有批注成功', { count });
+        return { success: true, count };
+    } catch (e) {
+        error('清除批注异常', { error: e.message });
+        return { success: false, error: e.message };
+    }
+}
+
+function insertTextToDocument(text) {
+    try {
+        const app = window.Application;
+        const doc = app.ActiveDocument;
+        
+        if (!doc) {
+            warn('插入文本失败：没有打开的文档');
+            return { success: false, error: '当前没有打开任何文档' };
+        }
+        
+        const selection = app.Selection;
+        selection.TypeText(text);
+        selection.TypeParagraph();
+        
+        info('插入文本成功', { length: text.length });
+        return { success: true };
+    } catch (e) {
+        error('插入文本异常', { error: e.message });
+        return { success: false, error: e.message };
+    }
+}
+
 function applyFormatting(config, docContext) {
     try {
         const app = window.Application;
@@ -21,57 +119,33 @@ function applyFormatting(config, docContext) {
             range = doc.Content;
         }
         
-        const paragraphs = range.Paragraphs;
+        const pf = range.ParagraphFormat;
+        pf.LineSpacingRule = 4;
+        pf.LineSpacing = config.lineSpacing;
+        pf.CharacterUnitFirstLineIndent = 2;
         
+        const paragraphs = range.Paragraphs;
         for (let i = 1; i <= paragraphs.Count; i++) {
             const para = paragraphs.Item(i);
-            const text = para.Range.Text.trim();
+            const paraRange = para.Range;
+            const styleName = para.Style.NameLocal.toLowerCase();
             
-            if (!text) continue;
-            
-            const style = para.Style;
-            const outlineLevel = para.OutlineLevel;
-            
-            if (outlineLevel === 1) {
-                para.Range.Font.NameFarEast = config.h1Font;
-                para.Range.Font.Size = config.h1FontSize;
-                para.Range.Font.Bold = true;
-                debug('设置1级标题', { text: text.substring(0, 20) });
-            } else if (outlineLevel === 2) {
-                para.Range.Font.NameFarEast = config.h2Font;
-                para.Range.Font.Size = config.h2FontSize;
-                para.Range.Font.Bold = true;
-                debug('设置2级标题', { text: text.substring(0, 20) });
-            } else if (outlineLevel === 3) {
-                para.Range.Font.NameFarEast = config.h3Font;
-                para.Range.Font.Size = config.h3FontSize;
-                para.Range.Font.Bold = true;
-                debug('设置3级标题', { text: text.substring(0, 20) });
-            } else if (outlineLevel === 0) {
-                para.Range.Font.NameFarEast = config.titleFont;
-                para.Range.Font.Size = config.titleFontSize;
-                para.Range.Font.Bold = true;
-                debug('设置标题', { text: text.substring(0, 20) });
+            if (styleName.includes('heading 1') || styleName.includes('标题 1')) {
+                paraRange.Font.NameFarEast = config.h1Font;
+                paraRange.Font.Size = config.h1FontSize;
+                paraRange.Font.Bold = true;
+            } else if (styleName.includes('heading 2') || styleName.includes('标题 2')) {
+                paraRange.Font.NameFarEast = config.h2Font;
+                paraRange.Font.Size = config.h2FontSize;
+                paraRange.Font.Bold = true;
+            } else if (styleName.includes('heading 3') || styleName.includes('标题 3')) {
+                paraRange.Font.NameFarEast = config.h3Font;
+                paraRange.Font.Size = config.h3FontSize;
+                paraRange.Font.Bold = true;
             } else {
-                const pf = para.ParagraphFormat;
-                pf.LineSpacingRule = 4;
-                pf.LineSpacing = config.lineSpacing;
-                pf.CharacterUnitFirstLineIndent = 2;
-                
-                para.Range.Font.NameFarEast = '宋体';
-                para.Range.Font.Size = 12;
-                para.Range.Font.Bold = false;
-                
-                if (text.includes('（') && text.includes('）')) {
-                    const bracketStart = text.indexOf('（');
-                    const bracketEnd = text.indexOf('）');
-                    if (bracketStart !== -1 && bracketEnd !== -1) {
-                        const bracketRange = doc.Range(para.Range.Start + bracketStart, para.Range.Start + bracketEnd + 1);
-                        bracketRange.Font.NameFarEast = config.bracketFont;
-                        bracketRange.Font.Size = config.bracketFontSize;
-                        debug('设置括号内文字', { text: text.substring(bracketStart, Math.min(bracketEnd + 1, 20)) });
-                    }
-                }
+                paraRange.Font.NameFarEast = config.titleFont;
+                paraRange.Font.Size = config.titleFontSize;
+                paraRange.Font.Bold = false;
             }
         }
         
