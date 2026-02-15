@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
   <defs>
     <linearGradient id="agentGradient1" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
@@ -11,27 +11,27 @@
   </defs>
   
   <!-- 中心智能节点 -->
-  <circle cx="64" cy="64" r="18" fill="url(#agentGradient1)" stroke="#667eea" stroke-width="3"/>
-  <circle cx="64" cy="64" r="10" fill="#ffffff" opacity="0.3"/>
+  <circle cx="80" cy="80" r="22" fill="url(#agentGradient1)" stroke="#667eea" stroke-width="4"/>
+  <circle cx="80" cy="80" r="12" fill="#ffffff" opacity="0.3"/>
   
   <!-- 周围连接节点 -->
-  <circle cx="32" cy="32" r="10" fill="url(#agentGradient2)" stroke="#f5576c" stroke-width="2"/>
-  <circle cx="96" cy="32" r="10" fill="url(#agentGradient2)" stroke="#f5576c" stroke-width="2"/>
-  <circle cx="32" cy="96" r="10" fill="url(#agentGradient2)" stroke="#f5576c" stroke-width="2"/>
-  <circle cx="96" cy="96" r="10" fill="url(#agentGradient2)" stroke="#f5576c" stroke-width="2"/>
+  <circle cx="40" cy="40" r="12" fill="url(#agentGradient2)" stroke="#f5576c" stroke-width="3"/>
+  <circle cx="120" cy="40" r="12" fill="url(#agentGradient2)" stroke="#f5576c" stroke-width="3"/>
+  <circle cx="40" cy="120" r="12" fill="url(#agentGradient2)" stroke="#f5576c" stroke-width="3"/>
+  <circle cx="120" cy="120" r="12" fill="url(#agentGradient2)" stroke="#f5576c" stroke-width="3"/>
   
   <!-- 连接线 -->
-  <line x1="64" y1="64" x2="32" y2="32" stroke="#667eea" stroke-width="3" opacity="0.6"/>
-  <line x1="64" y1="64" x2="96" y2="32" stroke="#667eea" stroke-width="3" opacity="0.6"/>
-  <line x1="64" y1="64" x2="32" y2="96" stroke="#667eea" stroke-width="3" opacity="0.6"/>
-  <line x1="64" y1="64" x2="96" y2="96" stroke="#667eea" stroke-width="3" opacity="0.6"/>
+  <line x1="80" y1="80" x2="40" y2="40" stroke="#667eea" stroke-width="4" opacity="0.6"/>
+  <line x1="80" y1="80" x2="120" y2="40" stroke="#667eea" stroke-width="4" opacity="0.6"/>
+  <line x1="80" y1="80" x2="40" y2="120" stroke="#667eea" stroke-width="4" opacity="0.6"/>
+  <line x1="80" y1="80" x2="120" y2="120" stroke="#667eea" stroke-width="4" opacity="0.6"/>
   
   <!-- 数据流动效果（小圆点） -->
-  <circle cx="48" cy="48" r="3" fill="#ffffff" opacity="0.8"/>
-  <circle cx="80" cy="48" r="3" fill="#ffffff" opacity="0.8"/>
-  <circle cx="48" cy="80" r="3" fill="#ffffff" opacity="0.8"/>
-  <circle cx="80" cy="80" r="3" fill="#ffffff" opacity="0.8"/>
+  <circle cx="60" cy="60" r="4" fill="#ffffff" opacity="0.8"/>
+  <circle cx="100" cy="60" r="4" fill="#ffffff" opacity="0.8"/>
+  <circle cx="60" cy="100" r="4" fill="#ffffff" opacity="0.8"/>
+  <circle cx="100" cy="100" r="4" fill="#ffffff" opacity="0.8"/>
   
   <!-- 外围环形装饰 -->
-  <circle cx="64" cy="64" r="45" fill="none" stroke="#667eea" stroke-width="2" opacity="0.3" stroke-dasharray="8,4"/>
+  <circle cx="80" cy="80" r="56" fill="none" stroke="#667eea" stroke-width="3" opacity="0.3" stroke-dasharray="10,5"/>
 </svg>
